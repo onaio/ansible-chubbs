@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Ona Engineering
+  description: Installs and configures PGRestAPI (Chubbs Spatial Server)
+  company: Ona Systems Inc
+  license: Apache-2.0
+  min_ansible_version: 2.6
+  platforms:
+    - name: Ubuntu
+      versions:
+        - 16.04
+  galaxy_tags:
+    - spatial
+    - pgrestapi
+    - chubbs
+
+dependencies: []

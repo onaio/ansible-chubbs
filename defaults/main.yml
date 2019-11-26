@@ -1,0 +1,41 @@
+---
+# defaults file for ansible-chubbs
+chubbs_system_user: "chubbs"
+chubbs_system_group: "{{ chubbs_system_user }}"
+chubbs_system_groups:
+  - tty
+chubbs_system_user_home: "/home/{{ chubbs_system_user }}"
+chubbs_apt_dependencies:
+  - gcc
+  - g++
+  - clang-3.9
+  - python
+  - zlib1g-dev
+  - make
+  - pkg-config
+  - curl
+  - git
+
+chubbs_version: "master"
+chubbs_git_url: "https://github.com/onaio/PGRestAPI.git"
+chubbs_codebase_path: "{{ chubbs_system_user_home }}/app"
+chubbs_versioned_path: "{{ chubbs_codebase_path }}-versioned"
+chubbs_checkout_path: "{{ chubbs_versioned_path }}/{{ chubbs_version }}"
+chubbs_port: 8585
+chubbs_pgsql_db: "chubbs"
+chubbs_pgsql_user: "chubbs"
+chubbs_pgsql_password: "chubbs"
+chubbs_pgsql_host: "localhost"
+chubbs_pgsql_port: 5432
+
+# chubbs_nvm_node_version: "0.10.42" # TODO: update
+chubbs_nvm_node_version: "v6.0.0"
+chubbs_nvm_install_path: "{{ chubbs_system_user_home }}/.nvm"
+chubbs_nvm_node_dir: "{{ chubbs_system_user_home }}/.nvm/versions/node/{{ chubbs_nvm_node_version }}"
+chubbs_nvm_npm_path: "{{ chubbs_system_user_home }}/.nvm/versions/node/{{ chubbs_nvm_node_version }}/bin/npm"
+chubbs_nvm_version: "v0.35.1" # TODO: update
+chubbs_nvm_npm_bin: "{{ chubbs_system_user_home }}/.nvm/versions/node/{{ chubbs_nvm_node_version }}/bin/npm"
+
+chubbs_mapnik_git_url: "https://github.com/mapnik/mapnik"
+chubbs_mapnik_version: "master"
+chubbs_mapnik_install_dir: "{{ chubbs_system_user_home }}/mapnik"

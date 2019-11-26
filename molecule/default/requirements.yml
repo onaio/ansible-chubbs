@@ -1,0 +1,5 @@
+---
+- name: onaio.nvm
+  src: https://github.com/onaio/ansible-nvm.git
+  scm: git
+  version: pipe-install-script

@@ -21,18 +21,11 @@
   vars:
     nvm_user: "{{ chubbs_system_user }}"
     nvm_group: "{{ chubbs_system_group }}"
-    # nvm_node_version: "{{ chubbs_nvm_node_version }}"
+    nvm_node_version: "{{ chubbs_nvm_node_version }}"
     nvm_install_path: "{{ chubbs_nvm_install_path }}"
     nvm_node_dir: "{{ chubbs_nvm_node_dir }}"
     nvm_npm_path: "{{ chubbs_nvm_npm_path }}"
     nvm_version: "{{ chubbs_nvm_version }}"
-
-# Install Mapnik from source
-# - name: Add Clang PPA
-#   apt_repository:
-#     repo: ppa:ubuntu-toolchain-r/test
-#   tags:
-#     - mapnik
 
 - name: Install dependencies
   apt:
@@ -79,7 +72,9 @@
   npm:
     global: yes
     name: pm2
-    executable: "{{ chubbs_nvm_npm_bin }}"
+    executable: "{{ chubbs_nvm_npm_path }}"
+  environment:
+    PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"
 
 - name: Download PGRestAPI
   become: true
@@ -93,9 +88,10 @@
 - name: Install PGRestAPI npm packages
   become: true
   become_user: "{{ chubbs_system_user }}"
-  npm:
-    path: "{{ chubbs_checkout_path }}"
-    executable: "{{ chubbs_nvm_npm_bin }}"
+  unarchive:
+    src: "{{ chubbs_npm_packages_archive_url }}"
+    dest: "{{ chubbs_checkout_path }}"
+    remote_src: yes
 
 - name: Copy chubbs server settings.js to settings directory
   template:

@@ -1,0 +1,13 @@
+---
+- name: Clear node_modules directory
+  file:
+    path: "{{ chubbs_checkout_path }}/node_modules"
+    state: absent
+
+- name: Install PGRestAPI npm packages
+  become: true
+  become_user: "{{ chubbs_system_user }}"
+  unarchive:
+    src: "{{ chubbs_node_packages_archive_url }}"
+    dest: "{{ chubbs_checkout_path }}"
+    remote_src: yes

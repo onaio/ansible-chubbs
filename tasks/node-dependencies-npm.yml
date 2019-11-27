@@ -1,0 +1,9 @@
+---
+- name: Install PGRestAPI npm packages
+  become: true
+  become_user: "{{ chubbs_system_user }}"
+  npm:
+    path: "{{ chubbs_checkout_path }}"
+    executable: "{{ chubbs_nvm_npm_path }}"
+  environment:
+    PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"

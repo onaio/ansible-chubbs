@@ -19,7 +19,12 @@ chubbs_apt_dependencies:
 
 chubbs_version: "master"
 chubbs_git_url: "https://github.com/onaio/PGRestAPI.git"
-chubbs_npm_packages_archive_url: "https://node-modules-backups.s3.eu-central-1.amazonaws.com/pgrestapi.zip"
+# The method to use to install the node dependencies
+# Can be:
+#  - archive (make sure you set chubbs_node_packages_archive_url)
+#  - npm
+chubbs_node_deps_install_method: "archive"
+chubbs_node_packages_archive_url: "https://node-modules-backups.s3.eu-central-1.amazonaws.com/pgrestapi.zip"
 chubbs_codebase_path: "{{ chubbs_system_user_home }}/app"
 chubbs_versioned_path: "{{ chubbs_codebase_path }}-versioned"
 chubbs_checkout_path: "{{ chubbs_versioned_path }}/{{ chubbs_version }}"

@@ -66,16 +66,6 @@
   tags:
     - mapnik
 
-- name: Install Node.js Packages
-  become: true
-  become_user: "{{ chubbs_system_user }}"
-  npm:
-    global: yes
-    name: pm2
-    executable: "{{ chubbs_nvm_npm_path }}"
-  environment:
-    PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"
-
 - name: Download PGRestAPI
   become: true
   become_user: "{{ chubbs_system_user }}"
@@ -107,3 +97,6 @@
     state: link
     dest: "{{ chubbs_codebase_path }}"
     src: "{{ chubbs_checkout_path }}"
+
+- name: Configure PM2
+  include_tasks: pm2.yml

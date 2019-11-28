@@ -1,48 +1,52 @@
-Role Name
+Ansible: Chubbs [![Build Status](https://travis-ci.org/onaio/ansible-chubbs.svg?branch=master)](https://travis-ci.org/onaio/ansible-chubbs)
 =========
 
-A brief description of the role goes here.
-
-Requirements
-------------
-
-Any pre-requisites that may not be covered by Ansible itself or the role should
-be mentioned here. For instance, if the role uses the EC2 module, it may be a
-good idea to mention in this section that the boto package is required.
+This role installs and configures [Chubbs (PGRestAPI)](https://github.com/onaio/PGRestAPI). A Node.js REST API for PostgreSQL spatial entities.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including
-any variables that are in defaults/main.yml, vars/main.yml, and any variables
-that can/should be set via parameters to the role. Any variables that are read
-from other roles and/or the global scope (ie. hostvars, group vars, etc.) should
-be mentioned here as well.
+Below is a list of some variables and the default values set. Get the full list of settable variables from the [defaults](./defaults/main.yml) file:
+
+```yml
+# The method to use to install the node dependencies
+# Can be:
+#  - archive (make sure you set chubbs_node_packages_archive_url)
+#  - npm
+chubbs_node_deps_install_method: "archive"
+
+# The URL from where to get the archive with node dependencies
+chubbs_node_packages_archive_url: "https://node-modules-backups.s3.eu-central-1.amazonaws.com/pgrestapi.zip"
+
+# The version of Node.js to install (using NVM). Currently, Chubbs works with Node.js 0.10
+chubbs_nvm_node_version: "v0.10.42"
+
+# The version of PM2 to run Chubbs in. Chubbs currently supports PM2 2.4
+chubbs_nvm_pm2_version: "2.4.6"
+```
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in
-regards to parameters that may need to be set for other roles, or variables that
-are used from other roles.
+Chubbs depends on the following roles:
+ - [onaio.nvm](https://github.com/onaio/ansible-nvm)
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables
-passed in as parameters) is always nice for users too:
+Here's an example Chubbs playbook:
 
-    - hosts: servers
-      roles:
-         - { role: ansible-chubbs, x: 42 }
+```yml
+- hosts: all
+  roles:
+    - role: ansible-chubbs
+      chubbs_pgsql_db: "chubbs"
+      chubbs_pgsql_user: "chubbs"
+      chubbs_pgsql_password: "random strong password"
+      chubbs_pgsql_host: "localhost"
+```
 
 License
 -------
 
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a
-website (HTML is not allowed).
+Apache 2

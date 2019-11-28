@@ -10,18 +10,6 @@ platforms:
     image: solita/ubuntu-systemd:16.04
     privileged: true
     command: /sbin/init
-scenario:
-  name: default
-  test_sequence:
-    - destroy
-    - dependency
-    - syntax
-    - create
-    - prepare
-    - converge
-    - side_effect
-    - verify
-    - destroy
 provisioner:
   name: ansible
   lint:

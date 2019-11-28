@@ -4,6 +4,7 @@ chubbs_system_user: "chubbs"
 chubbs_system_group: "{{ chubbs_system_user }}"
 chubbs_service_name: "{{ chubbs_system_user }}"
 chubbs_init_system: "systemd"
+chubbs_pm2_service_path: "/etc/systemd/system/{{ chubbs_pm2_service_name }}.service"
 chubbs_system_groups:
   - tty
 chubbs_system_user_home: "/home/{{ chubbs_system_user }}"

@@ -1,2 +1,3 @@
 ---
-# vars file for ansible-chubbs
+# Full service name given to the PM2 service
+chubbs_pm2_service_name: "pm2-{{ chubbs_service_name }}"

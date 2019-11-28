@@ -6,13 +6,14 @@
     global: yes
     name: pm2
     executable: "{{ chubbs_nvm_npm_path }}"
+    version: "{{ chubbs_nvm_pm2_version }}"
   environment:
     PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"
 
 - name: delete specific pm2 process
   become: true
   become_user: "{{ chubbs_system_user }}"
-  shell: "{{ chubbs_nmv_pm2_path }} delete {{ chubbs_service_name }}"
+  shell: "{{ chubbs_nvm_pm2_path }} delete {{ chubbs_service_name }}"
   # this shell fails if the process has not yet been started
   ignore_errors: yes
   environment:
@@ -24,7 +25,7 @@
 - name: start pm2 app
   become: true
   become_user: "{{ chubbs_system_user }}"
-  shell: "{{ chubbs_nmv_pm2_path }} start app.js -i 0 -n {{ chubbs_service_name }}"
+  shell: "{{ chubbs_nvm_pm2_path }} start app.js -i 0 -n {{ chubbs_service_name }}"
   args:
     chdir: "{{ chubbs_codebase_path }}"
   environment:
@@ -36,7 +37,7 @@
 - name: save the current PM2 running list
   become: true
   become_user: "{{ chubbs_system_user }}"
-  shell: "{{ chubbs_nmv_pm2_path }} save"
+  shell: "{{ chubbs_nvm_pm2_path }} save"
   environment:
     PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"
     HOME: "{{ chubbs_system_user_home }}"
@@ -44,7 +45,7 @@
     - "reload pm2"
 
 - name: delete the old startup file
-  shell: "{{ chubbs_nmv_pm2_path }} unstartup {{ chubbs_init_system }} -u {{ chubbs_system_user }}"
+  shell: "{{ chubbs_nvm_pm2_path }} unstartup {{ chubbs_init_system }} -u {{ chubbs_system_user }}"
   environment:
     PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"
   ignore_errors: yes
@@ -52,7 +53,7 @@
     - "reload pm2"
 
 - name: generate an PM2 init service file
-  shell: "{{ chubbs_nmv_pm2_path }} startup {{ chubbs_init_system }} -u {{ chubbs_system_user }} --hp {{ chubbs_system_user_home }}"
+  shell: "{{ chubbs_nvm_pm2_path }} startup {{ chubbs_init_system }} -u {{ chubbs_system_user }} --hp {{ chubbs_system_user_home }}"
   environment:
     PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"
   notify:

@@ -35,12 +35,13 @@ chubbs_pgsql_password: "chubbs"
 chubbs_pgsql_host: "localhost"
 chubbs_pgsql_port: 5432
 
-chubbs_nvm_node_version: "v6.0.0"
+chubbs_nvm_node_version: "v0.10.42"
 chubbs_nvm_install_path: "{{ chubbs_system_user_home }}/.nvm"
-chubbs_nvm_node_dir: "{{ chubbs_system_user_home }}/.nvm/versions/node/{{ chubbs_nvm_node_version }}"
+chubbs_nvm_node_dir: "{{ chubbs_system_user_home }}/.nvm/{{ chubbs_nvm_node_version }}"
 chubbs_nvm_npm_path: "{{ chubbs_nvm_node_dir }}/bin/npm"
-chubbs_nvm_version: "v0.35.1"
-chubbs_nmv_pm2_path: "{{ chubbs_nvm_node_dir }}/bin/pm2"
+chubbs_nvm_version: "v0.34.0"
+chubbs_nvm_pm2_path: "{{ chubbs_nvm_node_dir }}/bin/pm2"
+chubbs_nvm_pm2_version: "2.4.6"
 
 chubbs_mapnik_git_url: "https://github.com/mapnik/mapnik"
 chubbs_mapnik_version: "master"

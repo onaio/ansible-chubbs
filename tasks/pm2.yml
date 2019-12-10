@@ -13,9 +13,15 @@
 - name: delete specific pm2 process
   become: true
   become_user: "{{ chubbs_system_user }}"
-  shell: "{{ chubbs_nvm_pm2_path }} delete {{ chubbs_service_name }}"
+  command: "{{ chubbs_nvm_pm2_path }} delete {{ chubbs_service_name }}"
   # this shell fails if the process has not yet been started
-  ignore_errors: yes
+  register: delete_result
+  changed_when:
+    - "'✓' in delete_result.stdout"
+    - delete_result.rc == 0
+  failed_when:
+    - "'Process or Namespace {{ chubbs_service_name }} not found' not in delete_result.stdout"
+    - delete_result.rc != 0
   environment:
     PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"
     HOME: "{{ chubbs_system_user_home }}"
@@ -25,7 +31,14 @@
 - name: start pm2 app
   become: true
   become_user: "{{ chubbs_system_user }}"
-  shell: "{{ chubbs_nvm_pm2_path }} start app.js -i 0 -n {{ chubbs_service_name }}"
+  command: "{{ chubbs_nvm_pm2_path }} start app.js -i 0 -n {{ chubbs_service_name }}"
+  register: start_result
+  changed_when:
+    - "'Done.' in start_result.stdout"
+    - start_result.rc == 0
+  failed_when:
+    - "'ERROR' in start_result.stdout"
+    - start_result.rc != 0
   args:
     chdir: "{{ chubbs_codebase_path }}"
   environment:
@@ -37,7 +50,12 @@
 - name: save the current PM2 running list
   become: true
   become_user: "{{ chubbs_system_user }}"
-  shell: "{{ chubbs_nvm_pm2_path }} save"
+  command: "{{ chubbs_nvm_pm2_path }} save"
+  register: save_result
+  changed_when:
+    - "'Successfully saved' in save_result.stdout"
+  failed_when:
+    - save_result.rc != 0
   environment:
     PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"
     HOME: "{{ chubbs_system_user_home }}"
@@ -45,7 +63,12 @@
     - "reload pm2"
 
 - name: delete the old startup file
-  shell: "{{ chubbs_nvm_pm2_path }} unstartup {{ chubbs_init_system }} -u {{ chubbs_system_user }}"
+  command: "{{ chubbs_nvm_pm2_path }} unstartup {{ chubbs_init_system }} -u {{ chubbs_system_user }}"
+  register: unstartup_result
+  changed_when:
+    - "'Init file disabled.' in unstartup_result.stdout"
+  failed_when:
+    - "'Failed' in unstartup_result.stdout"
   environment:
     PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"
   ignore_errors: yes
@@ -53,9 +76,14 @@
     - "reload pm2"
 
 - name: generate an PM2 init service file
-  shell: "{{ chubbs_nvm_pm2_path }} startup {{ chubbs_init_system }} -u {{ chubbs_system_user }} --hp {{ chubbs_system_user_home }}"
+  command: "{{ chubbs_nvm_pm2_path }} startup {{ chubbs_init_system }} -u {{ chubbs_system_user }} --hp {{ chubbs_system_user_home }}"
   environment:
     PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"
+  register: startup_result
+  changed_when:
+    - "'Command successfully executed.' in startup_result.stdout"
+  failed_when:
+    -
   notify:
     - "reload pm2"
 

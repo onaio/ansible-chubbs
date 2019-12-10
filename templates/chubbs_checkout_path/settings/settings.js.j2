@@ -17,7 +17,7 @@ settings.application.port = {{ chubbs_port }};
 
 //CORS
 settings.cors = {}
-settings.cors.whitelist = ["http://localhost:3000", "https://ona.io", "https://preview.ona.io", "https://stage.ona.io"];
+settings.cors.whitelist = {{ chubbs_cors_whitelist | to_json }}
 
 //Settings for postgres DB
 settings.pg.database = '{{ chubbs_pgsql_db }}';

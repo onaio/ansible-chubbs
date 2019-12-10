@@ -34,6 +34,7 @@ chubbs_pgsql_user: "chubbs"
 chubbs_pgsql_password: "chubbs"
 chubbs_pgsql_host: "localhost"
 chubbs_pgsql_port: 5432
+chubbs_cors_whitelist: []
 
 chubbs_nvm_node_version: "v0.10.42"
 chubbs_nvm_install_path: "{{ chubbs_system_user_home }}/.nvm"

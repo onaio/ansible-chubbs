@@ -44,6 +44,7 @@ Here's an example Chubbs playbook:
       chubbs_pgsql_user: "chubbs"
       chubbs_pgsql_password: "random strong password"
       chubbs_pgsql_host: "localhost"
+      chubbs_cors_whitelist: ["https://ona.io", "http://localhost:3000"]
 ```
 
 License

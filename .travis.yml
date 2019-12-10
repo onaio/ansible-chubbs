@@ -8,5 +8,9 @@ before_install:
 install:
   - pip install molecule
   - pip install docker-py
+before_script:
+  - cd ../
+  - mv ansible-chubbs chubbs
+  - cd chubbs
 script:
   - travis_wait molecule test

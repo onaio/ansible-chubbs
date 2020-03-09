@@ -26,6 +26,14 @@ settings.pg.password = '{{ chubbs_pgsql_password }}';
 settings.pg.server = '{{ chubbs_pgsql_host }}';
 settings.pg.port = '{{ chubbs_pgsql_port }}';
 
+// custom chubbs configs
+
+settings.onadata_api_forms_endpoint = "https://{{ onadata_api_domain }}/api/v1/forms/"
+
+settings.table.name = '{{ chubbs_table_name }}';
+settings.table.column = '{{ chubbs_table_column }}';
+settings.table.sourceName = '{{ chubbs_table_source_name }}';
+
 settings.pg.featureLimit = 100000; //how many features to return by default
 settings.otherSchemas = ['logger_instance'];
 //settings.otherSchemas = ['myschema']; //Optionally list postgres schemas other than 'public' to read

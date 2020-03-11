@@ -74,6 +74,7 @@
     dest: "{{ chubbs_checkout_path }}"
     version: "{{ chubbs_version }}"
     depth: 1
+    force: true
 
 - name: Install node requirements
   include_tasks: "node-dependencies-{{ chubbs_node_deps_install_method }}.yml"

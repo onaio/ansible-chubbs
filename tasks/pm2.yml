@@ -25,12 +25,31 @@
 - name: start pm2 app
   become: true
   become_user: "{{ chubbs_system_user }}"
-  shell: "{{ chubbs_nvm_pm2_path }} start app.js -i 0 -n {{ chubbs_service_name }}"
+  shell: "{{ chubbs_nvm_pm2_path }} start app.js -n {{ chubbs_service_name }}"
   args:
     chdir: "{{ chubbs_codebase_path }}"
   environment:
     PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"
     HOME: "{{ chubbs_system_user_home }}"
+  notify:
+    - "reload pm2"
+
+- name: delete the old startup file
+  become: true
+  become_user: "root"
+  shell: "env PATH=$PATH:{{ chubbs_nvm_node_dir }}/bin {{ chubbs_nvm_node_dir }}/lib/node_modules/pm2/bin/pm2 unstartup systemd -u {{ chubbs_system_user }} --hp {{ chubbs_system_user_home }}"
+  environment:
+    PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"
+  ignore_errors: yes
+  notify:
+    - "reload pm2"
+
+- name: generate an PM2 init service file
+  become: true
+  become_user: "root"
+  shell: "env PATH=$PATH:{{ chubbs_nvm_node_dir }}/bin {{ chubbs_nvm_node_dir }}/lib/node_modules/pm2/bin/pm2 startup systemd -u {{ chubbs_system_user }} --hp {{ chubbs_system_user_home }}"
+  environment:
+    PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"
   notify:
     - "reload pm2"
 
@@ -44,22 +63,9 @@
   notify:
     - "reload pm2"
 
-- name: delete the old startup file
-  shell: "{{ chubbs_nvm_pm2_path }} unstartup {{ chubbs_init_system }} -u {{ chubbs_system_user }}"
-  environment:
-    PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"
-  ignore_errors: yes
-  notify:
-    - "reload pm2"
-
-- name: generate an PM2 init service file
-  shell: "{{ chubbs_nvm_pm2_path }} startup {{ chubbs_init_system }} -u {{ chubbs_system_user }} --hp {{ chubbs_system_user_home }}"
-  environment:
-    PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"
-  notify:
-    - "reload pm2"
-
 - name: Enable the PM2 service
+  become: true
+  become_user: "root"
   service:
     name: "pm2-{{ chubbs_service_name }}"
     enabled: yes

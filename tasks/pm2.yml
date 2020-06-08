@@ -45,6 +45,8 @@
     - "reload pm2"
 
 - name: delete the old startup file
+  become: true
+  become_user: "root"
   shell: "{{ chubbs_nvm_pm2_path }} unstartup {{ chubbs_init_system }} -u {{ chubbs_system_user }}"
   environment:
     PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"
@@ -52,7 +54,14 @@
   notify:
     - "reload pm2"
 
+- name: Cleanup pm2 processes # HACK: this should not be happening
+  become: true
+  become_user: "root"
+  shell: ps aux | grep PM2 | grep -v grep | awk '{print $2}' | xargs kill -9 # noqa 306
+
 - name: generate an PM2 init service file
+  become: true
+  become_user: "root"
   shell: "{{ chubbs_nvm_pm2_path }} startup {{ chubbs_init_system }} -u {{ chubbs_system_user }} --hp {{ chubbs_system_user_home }}"
   environment:
     PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"
@@ -60,6 +69,8 @@
     - "reload pm2"
 
 - name: Enable the PM2 service
+  become: true
+  become_user: "root"
   service:
     name: "pm2-{{ chubbs_service_name }}"
     enabled: yes

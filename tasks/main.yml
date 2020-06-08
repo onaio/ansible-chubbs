@@ -14,7 +14,6 @@
     createhome: yes
     home: "{{ chubbs_system_user_home }}"
 
-
 - name: Install Node Version Manager
   include_role:
     name: onaio.nvm
@@ -74,6 +73,7 @@
     dest: "{{ chubbs_checkout_path }}"
     version: "{{ chubbs_version }}"
     depth: 1
+    force: true
 
 - name: Install node requirements
   include_tasks: "node-dependencies-{{ chubbs_node_deps_install_method }}.yml"

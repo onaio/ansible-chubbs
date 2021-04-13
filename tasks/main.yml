@@ -42,6 +42,7 @@
     version: "{{ chubbs_mapnik_version }}"
     depth: 10
     dest: "{{ chubbs_mapnik_install_dir }}"
+    force: yes
   tags:
     - mapnik
 

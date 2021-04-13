@@ -52,6 +52,12 @@
   tags:
     - mapnik
 
+- name: Replace python version in configure file
+  lineinfile:
+    regexp: "^:"
+    line: ": ${PYTHON:=python3}"
+    dest: "{{ chubbs_mapnik_install_dir }}/configure"
+
 - name: Run the configure script # noqa 301 305
   shell: ./configure  CUSTOM_CXXFLAGS="-D_GLIBCXX_USE_CXX11_ABI=0" CXX="clang++-3.8" CC="clang-3.8"
   args:
@@ -63,6 +69,8 @@
   make:
     target: install
     chdir: "{{ chubbs_mapnik_install_dir }}"
+  environment:
+    PYTHON: python3
   tags:
     - mapnik
 

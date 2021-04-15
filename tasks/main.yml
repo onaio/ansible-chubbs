@@ -56,7 +56,7 @@
 - name: Replace python version in configure file
   lineinfile:
     regexp: "^:"
-    line: ": ${PYTHON:=python3}"
+    line: ': ${PYTHON:={{ python_version }}}'
     dest: "{{ chubbs_mapnik_install_dir }}/configure"
 
 - name: Run the configure script # noqa 301 305
@@ -71,7 +71,7 @@
     target: install
     chdir: "{{ chubbs_mapnik_install_dir }}"
   environment:
-    PYTHON: python3
+    PYTHON: "{{ python_version }}"
   tags:
     - mapnik
 

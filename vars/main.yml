@@ -1,2 +1,4 @@
 ---
 # vars file for ansible-chubbs
+# this can be set to python3 or python2
+python_version: python

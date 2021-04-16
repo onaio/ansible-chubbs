@@ -80,6 +80,7 @@
     PYTHON: "{{ python_version }}"
   tags:
     - mapnik
+    - notest
 
 - name: Download PGRestAPI
   become: true
@@ -110,3 +111,5 @@
 
 - name: Configure PM2
   include_tasks: pm2.yml
+  tags:
+    - notest

@@ -53,6 +53,12 @@
   tags:
     - mapnik
 
+- name: Ensure python3 is installed
+  apt:
+    name: python3
+    state: present
+
+  when: python_version == "python3"
 - name: Replace python version in configure file
   lineinfile:
     regexp: "^:"

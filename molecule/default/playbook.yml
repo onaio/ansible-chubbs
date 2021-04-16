@@ -3,3 +3,5 @@
   hosts: all
   roles:
     - role: ansible-chubbs
+    # for local testing
+    # - role: chubbs

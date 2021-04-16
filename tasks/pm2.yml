@@ -11,6 +11,7 @@
     PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"
 
 - name: delete specific pm2 process
+  # noqa 305 301
   become: true
   become_user: "{{ chubbs_system_user }}"
   shell: "{{ chubbs_nvm_pm2_path }} delete {{ chubbs_service_name }}"
@@ -23,6 +24,7 @@
     - "reload pm2"
 
 - name: start pm2 app
+  # noqa 305 301
   become: true
   become_user: "{{ chubbs_system_user }}"
   shell: "{{ chubbs_nvm_pm2_path }} start app.js -i 0 -n {{ chubbs_service_name }}"
@@ -35,6 +37,7 @@
     - "reload pm2"
 
 - name: save the current PM2 running list
+  # noqa 305 301
   become: true
   become_user: "{{ chubbs_system_user }}"
   shell: "{{ chubbs_nvm_pm2_path }} save"
@@ -45,6 +48,7 @@
     - "reload pm2"
 
 - name: delete the old startup file
+  # noqa 305 301
   shell: "{{ chubbs_nvm_pm2_path }} unstartup {{ chubbs_init_system }} -u {{ chubbs_system_user }}"
   environment:
     PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"
@@ -53,6 +57,7 @@
     - "reload pm2"
 
 - name: generate an PM2 init service file
+  # noqa 305 301
   shell: "{{ chubbs_nvm_pm2_path }} startup {{ chubbs_init_system }} -u {{ chubbs_system_user }} --hp {{ chubbs_system_user_home }}"
   environment:
     PATH: "{{ chubbs_nvm_node_dir }}/bin:{{ ansible_env.PATH }}"

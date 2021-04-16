@@ -42,6 +42,7 @@
     version: "{{ chubbs_mapnik_version }}"
     depth: 10
     dest: "{{ chubbs_mapnik_install_dir }}"
+    force: yes
   tags:
     - mapnik
 
@@ -51,6 +52,18 @@
     chdir: "{{ chubbs_mapnik_install_dir }}"
   tags:
     - mapnik
+
+- name: Ensure python3 is installed
+  apt:
+    name: python3
+    state: present
+
+  when: python_version == "python3"
+- name: Replace python version in configure file
+  lineinfile:
+    regexp: "^:"
+    line: ': ${PYTHON:={{ python_version }}}'
+    dest: "{{ chubbs_mapnik_install_dir }}/configure"
 
 - name: Run the configure script # noqa 301 305
   shell: ./configure  CUSTOM_CXXFLAGS="-D_GLIBCXX_USE_CXX11_ABI=0" CXX="clang++-3.8" CC="clang-3.8"
@@ -63,8 +76,11 @@
   make:
     target: install
     chdir: "{{ chubbs_mapnik_install_dir }}"
+  environment:
+    PYTHON: "{{ python_version }}"
   tags:
     - mapnik
+    - notest
 
 - name: Download PGRestAPI
   become: true
@@ -95,3 +111,5 @@
 
 - name: Configure PM2
   include_tasks: pm2.yml
+  tags:
+    - notest

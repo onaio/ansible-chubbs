@@ -1,0 +1,13 @@
+---
+- name: Verify
+  hosts: chubbs-ubuntu
+  become: true
+  tasks:
+    - include_vars:
+        dir: ../../defaults
+        ignore_unknown_extensions: True
+        extensions:
+          - ''
+          - 'yaml'
+          - 'yml'
+          - 'json'

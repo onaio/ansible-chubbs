@@ -27,6 +27,18 @@
     nvm_npm_path: "{{ chubbs_nvm_npm_path }}"
     nvm_version: "{{ chubbs_nvm_version }}"
 
+- name: Install software-properties-common
+  apt:
+    update_cache: yes
+    name: software-properties-common
+  tags:
+    - mapnik
+
+- name: Add ppa:ubuntu-toolchain-r/test into sources list
+  # noqa 305 301
+  shell: add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  become: true
+
 - name: Install dependencies
   apt:
     update_cache: yes
@@ -42,6 +54,8 @@
     version: "{{ chubbs_mapnik_version }}"
     depth: 10
     dest: "{{ chubbs_mapnik_install_dir }}"
+    recursive: yes
+    update: yes
     force: yes
   tags:
     - mapnik

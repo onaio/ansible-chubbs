@@ -16,6 +16,8 @@ chubbs_apt_dependencies:
   - curl
   - git
   - unzip
+  - gcc-6
+  - g++-6
 
 chubbs_version: "master"
 chubbs_git_url: "https://github.com/onaio/PGRestAPI.git"

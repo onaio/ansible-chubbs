@@ -56,6 +56,12 @@
   notify:
     - "reload pm2"
 
+- name: Cleanup pm2 processes
+  # noqa 305 301
+  become: true
+  become_user: "root"
+  shell: "killall -u {{ chubbs_system_user }}"
+
 - name: generate an PM2 init service file
   # noqa 305 301
   shell: "{{ chubbs_nvm_pm2_path }} startup {{ chubbs_init_system }} -u {{ chubbs_system_user }} --hp {{ chubbs_system_user_home }}"

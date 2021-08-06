@@ -1,7 +1,6 @@
 ---
 - name: Converge
   hosts: all
-  roles:
-    - role: ansible-chubbs
-      skip-tags:
-        - notest
+  tasks:
+    - import_role:
+        name: ansible-chubbs

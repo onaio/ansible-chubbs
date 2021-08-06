@@ -19,6 +19,16 @@ chubbs_apt_dependencies:
   - gcc-6
   - g++-6
 
+# CORS
+chubbs_cors_whitelist: ["http://localhost:3000", "https://ona.io", "https://preview.ona.io", "https://stage.ona.io"]
+
+# Onadata Intergration
+chubbs_onadata_forms_endpoint: "https://api.ona.io/api/v1/forms"
+chubbs_onadata_connected: true
+chubbs_table_name: "logger_instance"
+chubbs_table_column: "geom"
+chubbs_table_source_name: "logger_instance_geom"
+
 chubbs_version: "master"
 chubbs_git_url: "https://github.com/onaio/PGRestAPI.git"
 # The method to use to install the node dependencies

@@ -3,8 +3,10 @@ dependency:
   name: galaxy
 driver:
   name: docker
+lint: |
+  yamllint .
 platforms:
-  - name: chubbs-ubuntu
+  - name: chubbs-ubuntu-16.04
     image: solita/ubuntu-systemd:16.04
     privileged: true
     command: /sbin/init
@@ -24,9 +26,9 @@ scenario:
     - destroy
 provisioner:
   name: ansible
-lint: |
-  set -e
-  yamllint .
-  ansible-lint .
+  lint: |
+    ansible-linst
 verifier:
   name: ansible
+  lint: |
+    flake8

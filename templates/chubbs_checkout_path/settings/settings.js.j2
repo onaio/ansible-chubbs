@@ -17,7 +17,7 @@ settings.application.port = {{ chubbs_port }};
 
 //CORS
 settings.cors = {}
-settings.cors.whitelist = ["http://localhost:3000", "https://ona.io", "https://preview.ona.io", "https://stage.ona.io"];
+settings.cors.whitelist = {{ chubbs_cors_whitelist | to_json }};
 
 //Settings for postgres DB
 settings.pg.database = '{{ chubbs_pgsql_db }}';
@@ -25,6 +25,16 @@ settings.pg.username = '{{ chubbs_pgsql_user }}';
 settings.pg.password = '{{ chubbs_pgsql_password }}';
 settings.pg.server = '{{ chubbs_pgsql_host }}';
 settings.pg.port = '{{ chubbs_pgsql_port }}';
+
+{% if chubbs_onadata_connected is defined and chubbs_onadata_connected %}
+// Custom OnaData API Changes
+settings.onadata_api_forms_endpoint = "{{ chubbs_onadata_forms_endpoint }}"
+settings.table = {};
+
+settings.table.name = "{{ chubbs_table_name }}";
+settings.table.column = "{{ chubbs_table_column }}";
+settings.table.sourceName = "{{ chubbs_table_source_name }}";
+{% endif %}
 
 settings.pg.featureLimit = 100000; //how many features to return by default
 settings.otherSchemas = ['logger_instance'];

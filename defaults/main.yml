@@ -8,16 +8,25 @@ chubbs_system_groups:
   - tty
 chubbs_system_user_home: "/home/{{ chubbs_system_user }}"
 chubbs_apt_dependencies:
-  - clang-3.8
-  - python
   - zlib1g-dev
   - make
   - pkg-config
   - curl
   - git
   - unzip
-  - gcc-6
-  - g++-6
+  - autoconf
+  - libtool
+  - libxml2-dev
+  - libbz2-dev
+  - libgeos-dev
+  - libgeos++-dev
+  - libproj-dev
+  - gdal-bin
+  - libgdal-dev
+  - g++
+  - libmapnik-dev
+  - mapnik-utils
+  - python3-mapnik
 
 # CORS
 chubbs_cors_whitelist: ["http://localhost:3000", "https://ona.io", "https://preview.ona.io", "https://stage.ona.io"]
